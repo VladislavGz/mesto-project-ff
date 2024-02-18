@@ -1,4 +1,4 @@
-
+import initialCards from "./scripts/cards";
 
 
 // @todo: Темплейт карточки
