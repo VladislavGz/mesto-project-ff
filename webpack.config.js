@@ -4,6 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');     //плаги
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');    //плагин mini-css-extract-plugin для склейки файлов всех CSS-файлов, связанных директивой @import, в один
 
 module.exports = {
+    //devtool: 'source-map',                                        //благодаря этому параметру в браузере код будет выглядеть как и в среде разработки.
+                                                                    //прописываем его при отладке, чтобы проще было дебажить. При сборке для публикации - удаляем
+
     entry: { main: './src/index.js' },                              //путь к файлу, который считается точкой входа
 
     output: {
