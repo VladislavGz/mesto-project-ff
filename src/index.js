@@ -1,5 +1,7 @@
 import './pages/index.css';
 import initialCards from "./scripts/cards";
+import { openPopup, closePopup } from './components/modal';
+import { createCard, deleteCard, likeCard } from './components/cards';
 
 let activePopup = null;
 
@@ -24,16 +26,6 @@ const addCardForm = popupAddCard.querySelector('.popup__form');
 const addCardNameInput = addCardForm.elements['place-name'];
 const addCardLinkInput = addCardForm.elements['link'];
 
-//функция обработки события клика по попапу
-function popupHandler (evt) {
-    const popup = evt.target.closest('.popup');
-    const closeBtn = popup.querySelector('.popup__close');
-
-    if (evt.target === popup || evt.target === closeBtn) {
-        closePopup(popup);
-    }
-}
-
 //функция открытия изображения
 function openImage (imgData) {
     const img = popupImage.querySelector('.popup__image');
@@ -44,6 +36,7 @@ function openImage (imgData) {
     txt.textContent = imgData.txt;
 
     openPopup(popupImage);
+    activePopup = popupImage;
 }
 
 //функция открытия окна редактирования
@@ -52,6 +45,7 @@ function openEdit () {
     editJobInput.value = profileDescription.textContent;
 
     openPopup(popupEdit);
+    activePopup = popupEdit;
 }
 
 //обработчик отправки формы (окно редактирования)
@@ -68,6 +62,7 @@ function openNewCard () {
     addCardLinkInput.value = '';
 
     openPopup(popupAddCard);
+    activePopup = popupAddCard;
 }
 
 //обработчик отправки формы (новая карточка)
@@ -79,8 +74,9 @@ function handleFormSubmitAddCard (evt) {
         link: addCardLinkInput.value
     };
 
-    cardList.prepend(createCard(newCard, deleteCard));
+    cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage));
     closePopup(activePopup);
+    activePopup = null;
 }
 
 //--------------------------------------------------------------------
@@ -106,12 +102,14 @@ document.addEventListener('keydown', evt => {
     //закрытие попапа на клавишу Esc
     if (activePopup && evt.key === 'Escape') {
         closePopup(activePopup);
+        activePopup = null;
         return;
     }
 
     //открытие попапа добавления карточки
     if (evt.key === '+') {
         openNewCard();
+        return;
     }
 
 
@@ -119,5 +117,5 @@ document.addEventListener('keydown', evt => {
 
 //Вывести карточки на страницу
 initialCards.forEach(elem => {
-    cardList.append(createCard(elem, deleteCard, likeCard, openImage));
+    cardList.append(createCard(cardTemplate, elem, deleteCard, likeCard, openImage));
 });

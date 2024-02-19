@@ -1,5 +1,5 @@
 //Функция создания карточки
-function createCard (dataCard, delCallback, likeCard, openImage) {
+function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
