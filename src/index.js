@@ -1,7 +1,6 @@
 import './pages/index.css';
-import initialCards from "./scripts/cards";
 import { openPopup, closePopup } from './components/modal';
-import { createCard, deleteCard, likeCard } from './components/cards';
+import { initialCards, createCard, deleteCard, likeCard } from './components/cards';
 
 //переменная хранит ссылку на открытый попап
 let activePopup = null;
