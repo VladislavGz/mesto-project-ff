@@ -2,9 +2,6 @@ import './pages/index.css';
 import { openPopup, closePopup } from './components/modal';
 import { initialCards, createCard, deleteCard, likeCard } from './components/cards';
 
-//переменная хранит ссылку на открытый попап
-let activePopup = null;
-
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
 
@@ -36,7 +33,6 @@ function openImage (imgData) {
     txt.textContent = imgData.txt;
 
     openPopup(popupImage);
-    activePopup = popupImage;
 }
 
 //функция открытия окна редактирования
@@ -45,7 +41,6 @@ function openEdit () {
     editJobInput.value = profileDescription.textContent;
 
     openPopup(popupEdit);
-    activePopup = popupEdit;
 }
 
 //обработчик отправки формы (окно редактирования)
@@ -62,7 +57,6 @@ function openNewCard () {
     addCardLinkInput.value = '';
 
     openPopup(popupAddCard);
-    activePopup = popupAddCard;
 }
 
 //обработчик отправки формы (новая карточка)
@@ -75,8 +69,7 @@ function handleFormSubmitAddCard (evt) {
     };
 
     cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage));
-    closePopup(activePopup);
-    activePopup = null;
+    closePopup(popupAddCard);
 }
 
 //--------------------------------------------------------------------
@@ -99,20 +92,11 @@ addCardForm.addEventListener('submit', handleFormSubmitAddCard);
 
 //обработка клавиатуры
 document.addEventListener('keydown', evt => {
-    //закрытие попапа на клавишу Esc
-    if (activePopup && evt.key === 'Escape') {
-        closePopup(activePopup);
-        activePopup = null;
-        return;
-    }
-
     //открытие попапа добавления карточки
     if (evt.key === '+') {
         openNewCard();
         return;
     }
-
-
 });
 
 //Вывести карточки на страницу
