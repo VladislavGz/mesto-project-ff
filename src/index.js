@@ -135,6 +135,11 @@ function handleFormSubmitAddCard (evt) {
 }
 
 //--------------------------------------------------------------------
+//анимирование попапов
+popupEdit.classList.add('popup_is-animated');
+popupAddCard.classList.add('popup_is-animated');
+popupImage.classList.add('popup_is-animated');
+
 //открытие окна редактирования профиля
 editButton.addEventListener('click', openEdit);
 
@@ -162,8 +167,6 @@ document.addEventListener('keydown', evt => {
 
 
 });
-
-
 
 //Вывести карточки на страницу
 initialCards.forEach(elem => {
