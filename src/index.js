@@ -25,12 +25,13 @@ const addCardNameInput = addCardForm.elements['place-name'];
 const addCardLinkInput = addCardForm.elements['link'];
 
 //Функция создания карточки
-function createCard (dataCard, delCallback) {
+function createCard (dataCard, delCallback, likeCard) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
     const img = card.querySelector('.card__image');
     const deleteBtn = card.querySelector('.card__delete-button');
+    const likeBtn = card.querySelector('.card__like-button');
 
     title.textContent = dataCard.name;
 
@@ -38,6 +39,7 @@ function createCard (dataCard, delCallback) {
     img.setAttribute('alt', `Фото: ${dataCard.name}`);
 
     deleteBtn.addEventListener('click', delCallback);
+    likeBtn.addEventListener('click', likeCard);
     img.addEventListener('click', () => {
         openImage({
             src: dataCard.link,
@@ -52,6 +54,11 @@ function createCard (dataCard, delCallback) {
 //Функция удаления карточки
 function deleteCard (evt) {
     evt.target.closest('.card').remove();
+}
+
+//функция лайка карточки
+function likeCard (evt) {
+    evt.target.classList.toggle('card__like-button_is-active');
 }
 
 //функция открытия попапа
@@ -121,7 +128,7 @@ function handleFormSubmitAddCard (evt) {
     const newCard = {
         name: addCardNameInput.value,
         link: addCardLinkInput.value
-    }
+    };
 
     cardList.prepend(createCard(newCard, deleteCard));
     closePopup(activePopup);
@@ -153,12 +160,12 @@ document.addEventListener('keydown', evt => {
         openNewCard();
     }
 
-    
+
 });
 
 
 
 //Вывести карточки на страницу
 initialCards.forEach(elem => {
-    cardList.append(createCard(elem, deleteCard));
+    cardList.append(createCard(elem, deleteCard, likeCard));
 });
