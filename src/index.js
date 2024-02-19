@@ -123,7 +123,7 @@ function handleFormSubmitAddCard (evt) {
         link: addCardLinkInput.value
     }
 
-    cardList.append(createCard(newCard, deleteCard));
+    cardList.prepend(createCard(newCard, deleteCard));
     closePopup(activePopup);
 }
 
