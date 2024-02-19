@@ -24,20 +24,6 @@ const addCardForm = popupAddCard.querySelector('.popup__form');
 const addCardNameInput = addCardForm.elements['place-name'];
 const addCardLinkInput = addCardForm.elements['link'];
 
-//функция открытия попапа
-function openPopup (popup) {
-    popup.classList.add('popup_is-opened');
-    popup.addEventListener('click', popupHandler);
-    activePopup = popup;
-}
-
-//функция закрытия попапа
-function closePopup (popup) {
-    popup.classList.remove('popup_is-opened');
-    popup.removeEventListener('click', popupHandler);
-    activePopup = null;
-}
-
 //функция обработки события клика по попапу
 function popupHandler (evt) {
     const popup = evt.target.closest('.popup');
