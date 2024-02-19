@@ -25,7 +25,7 @@ const addCardNameInput = addCardForm.elements['place-name'];
 const addCardLinkInput = addCardForm.elements['link'];
 
 //Функция создания карточки
-function createCard (dataCard, delCallback, likeCard) {
+function createCard (dataCard, delCallback, likeCard, openImage) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
@@ -167,5 +167,5 @@ document.addEventListener('keydown', evt => {
 
 //Вывести карточки на страницу
 initialCards.forEach(elem => {
-    cardList.append(createCard(elem, deleteCard, likeCard));
+    cardList.append(createCard(elem, deleteCard, likeCard, openImage));
 });
