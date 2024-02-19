@@ -24,7 +24,10 @@ function popupClickHandler (evt) {
 
 //функция обработки события нажатия Escape
 function popupEscapeHandler (evt) {
-    
+    if (evt.key === 'Escape') {
+        const popup = document.querySelector('.popup_is-opened')
+        closePopup(popup);
+    }
 }
 
 export {
