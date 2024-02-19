@@ -49,6 +49,8 @@ function handleFormSubmitEdit (evt) {
 
     profileTitle.textContent = editNameInput.value;
     profileDescription.textContent = editJobInput.value;
+
+    closePopup(popupEdit);
 }
 
 //функция открытия попапа добавления карточки
