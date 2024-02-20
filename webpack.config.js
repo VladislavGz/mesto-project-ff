@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');    //плаги
 
 module.exports = {
     //devtool: 'source-map',                                        //благодаря этому параметру в браузере код будет выглядеть как и в среде разработки.
-                                                                    //прописываем его при отладке, чтобы проще было дебажить. При сборке для публикации - удаляем
+    //прописываем его при отладке, чтобы проще было дебажить. При сборке для публикации - удаляем
 
     entry: { main: './src/index.js' },                              //путь к файлу, который считается точкой входа
 
@@ -33,10 +33,28 @@ module.exports = {
                 exclude: '/node_modules/'                           // исключает папку node_modules, файлы в ней обрабатывать не нужно
             },
 
+            {                                                       //правило для обработки файлов jpg|jpeg|gif
+                test: /\.(png|jpg|jpeg|gif)$/i,                     //регулярное выражение, которое ищет все файлы с такими расширениями
+                type: 'asset/resource',                             //позволяет переносить исходные файлы в конечную сборку в том же формате
+                generator: {                                        
+                    filename: 'images/[name].[hash][ext]',          //создаст папку и поместит все эти файлы туда
+                }
+            },
 
-            {                                                       //правило для обработки файлов
-                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,  // регулярное выражение, которое ищет все файлы с такими расширениями
-                type: 'asset/resource'                              //позволяет переносить исходные файлы в конечную сборку в том же формате
+            {                                                       //правило для обработки файлов svg
+                test: /\.(svg)$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'svg/[name].[hash][ext]',
+                }
+            },
+            
+            {                                                       //правило для обработки файлов шрифтов
+                test: /\.(woff(2)?|eot|ttf|otf)$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'fonts/[name].[hash][ext]',
+                }
             },
 
             {                                                       //правило для обработки CSS
@@ -61,3 +79,6 @@ module.exports = {
         new MiniCssExtractPlugin()                                  //подключение плагина mini-css-extract-plugin для объединения файлов
     ]
 };
+
+
+
