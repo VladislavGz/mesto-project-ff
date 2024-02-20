@@ -14,18 +14,15 @@ function closePopup (popup) {
 
 //функция обработки события клика по попапу
 function popupClickHandler (evt) {
-    const popup = evt.target.closest('.popup');
-    const closeBtn = popup.querySelector('.popup__close');
-
-    if (evt.target === popup || evt.target === closeBtn) {
-        closePopup(popup);
+    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+        closePopup(evt.currentTarget);
     }
 }
 
 //функция обработки события нажатия Escape
 function popupEscapeHandler (evt) {
     if (evt.key === 'Escape') {
-        const popup = document.querySelector('.popup_is-opened')
+        const popup = document.querySelector('.popup_is-opened');
         closePopup(popup);
     }
 }
