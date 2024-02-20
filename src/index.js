@@ -1,6 +1,7 @@
 import './pages/index.css';
+import initialCards from './components/cards';
 import { openPopup, closePopup } from './components/modal';
-import { initialCards, createCard, deleteCard, likeCard } from './components/cards';
+import { createCard, deleteCard, likeCard } from './components/card';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
