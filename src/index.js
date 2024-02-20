@@ -55,8 +55,7 @@ function handleFormSubmitEdit (evt) {
 
 //функция открытия попапа добавления карточки
 function openNewCard () {
-    addCardNameInput.value = '';
-    addCardLinkInput.value = '';
+    addCardForm.reset();
 
     openPopup(popupAddCard);
 }
