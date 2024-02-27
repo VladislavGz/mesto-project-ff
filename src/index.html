@@ -40,10 +40,12 @@
                 <h3 class="popup__title">Редактировать профиль</h3>
                 <form class="popup__form" name="edit-profile" novalidate>
                     <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя"
-                        required minlength="2" maxlength="40" pattern="[a-zA-Zа-яА-ЯёЁ \-]*">
+                        required minlength="2" maxlength="40" pattern="[a-zA-Zа-яА-ЯёЁ \-]*"
+                        data-pattern-err-msg="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                     <span class="popup__input-error"></span>
                     <input type="text" name="description" class="popup__input popup__input_type_description"
-                        placeholder="Занятие" required minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-ЯёЁ \-]*">
+                        placeholder="Занятие" required minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-ЯёЁ \-]*"
+                        data-pattern-err-msg="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                     <button type="submit" class="button popup__button">Сохранить</button>
                     <span class="popup__input-error"></span>
                 </form>
@@ -55,7 +57,8 @@
                 <h3 class="popup__title">Новое место</h3>
                 <form class="popup__form" name="new-place" novalidate>
                     <input type="text" name="place-name" class="popup__input popup__input_type_card-name"
-                        placeholder="Название" required minlength="2" maxlength="30" pattern="[a-zA-Zа-яА-ЯёЁ \-]*">
+                        placeholder="Название" required minlength="2" maxlength="30" pattern="[a-zA-Zа-яА-ЯёЁ \-]*"
+                        data-pattern-err-msg="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                     <span class="popup__input-error"></span>
                     <input type="url" name="link" class="popup__input popup__input_type_url"
                         placeholder="Ссылка на картинку" required>
