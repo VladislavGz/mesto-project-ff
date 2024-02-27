@@ -40,9 +40,9 @@
                 <h3 class="popup__title">Редактировать профиль</h3>
                 <form class="popup__form" name="edit-profile" novalidate>
                     <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя"
-                        required minlength="2" maxlength="40">
+                        required minlength="2" maxlength="40" pattern="[a-zA-Zа-яА-ЯёЁ \-]*">
                     <input type="text" name="description" class="popup__input popup__input_type_description"
-                        placeholder="Занятие" required minlength="2" maxlength="200">
+                        placeholder="Занятие" required minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-ЯёЁ \-]*">
                     <button type="submit" class="button popup__button">Сохранить</button>
                 </form>
             </div>
@@ -53,7 +53,7 @@
                 <h3 class="popup__title">Новое место</h3>
                 <form class="popup__form" name="new-place" novalidate>
                     <input type="text" name="place-name" class="popup__input popup__input_type_card-name"
-                        placeholder="Название" required minlength="2" maxlength="30">
+                        placeholder="Название" required minlength="2" maxlength="30" pattern="[a-zA-Zа-яА-ЯёЁ \-]*">
                     <input type="url" name="link" class="popup__input popup__input_type_url"
                         placeholder="Ссылка на картинку" required>
                     <button type="submit" class="button popup__button">Сохранить</button>
