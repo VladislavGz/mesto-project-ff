@@ -2,7 +2,7 @@ import './pages/index.css';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUser, patchUser, getCards, postCard } from './components/api';
+import { getUser, patchUser, getCards, postCard, delCardRequest } from './components/api';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -113,10 +113,11 @@ function handleFormSubmitAddCard (evt) {
                 name: result.name,
                 link: result.link,
                 likes: result.likes.length,
+                cardId: result._id,
                 isOwner: true
             };
 
-            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage));
+            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, delCardRequest, likeCard, openImage));
         })
         .catch(err => {
             console.log(err);
@@ -170,9 +171,10 @@ Promise.all([userData, cardsData])
                 name: dataObj.name,
                 link: dataObj.link,
                 likes: dataObj.likes.length,
+                cardId: dataObj._id,
                 isOwner: userId === cardId      //true, если пользователь является создателем данной карточки
             };
-            cardList.append(createCard(cardTemplate, dataCard, deleteCard, likeCard, openImage));
+            cardList.append(createCard(cardTemplate, dataCard, deleteCard, delCardRequest, likeCard, openImage));
         });
     })
     .catch(err => {
