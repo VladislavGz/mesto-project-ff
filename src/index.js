@@ -2,6 +2,7 @@ import './pages/index.css';
 import initialCards from './components/cards';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
+import { enableValidation } from './components/validation';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -105,3 +106,13 @@ document.addEventListener('keydown', evt => {
 initialCards.forEach(elem => {
     cardList.append(createCard(cardTemplate, elem, deleteCard, likeCard, openImage));
 });
+
+//включаем валидацию
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_error',
+    errorClass: 'popup__input-error_active'
+})
