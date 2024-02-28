@@ -2,7 +2,7 @@ import './pages/index.css';
 import initialCards from './components/cards';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
-import { enableValidation } from './components/validation';
+import { enableValidation, clearValidation } from './components/validation';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -42,6 +42,17 @@ function openEdit () {
     editNameInput.value = profileTitle.textContent;
     editJobInput.value = profileDescription.textContent;
 
+    clearValidation(
+        popupEdit.querySelector('.popup__form'),
+        {
+            inputSelector: '.popup__input',
+            submitButtonSelector: '.popup__button',
+            inactiveButtonClass: 'popup__button_disabled',
+            inputErrorClass: 'popup__input_error',
+            errorClass: 'popup__input-error_active'
+        }
+    );
+
     openPopup(popupEdit);
 }
 
@@ -58,6 +69,17 @@ function handleFormSubmitEdit (evt) {
 //функция открытия попапа добавления карточки
 function openNewCard () {
     addCardForm.reset();
+
+    clearValidation(
+        popupAddCard.querySelector('.popup__form'),
+        {
+            inputSelector: '.popup__input',
+            submitButtonSelector: '.popup__button',
+            inactiveButtonClass: 'popup__button_disabled',
+            inputErrorClass: 'popup__input_error',
+            errorClass: 'popup__input-error_active'
+        }
+    );
 
     openPopup(popupAddCard);
 }
@@ -115,4 +137,4 @@ enableValidation({
     inactiveButtonClass: 'popup__button_disabled',
     inputErrorClass: 'popup__input_error',
     errorClass: 'popup__input-error_active'
-})
+});
