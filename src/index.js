@@ -3,7 +3,7 @@ import initialCards from './components/cards';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUser } from './components/api';
+import { getUser, getCards } from './components/api';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -138,10 +138,21 @@ getUser()
         console.log(err);
     });
 
-//Вывести карточки на страницу
-initialCards.forEach(elem => {
-    cardList.append(createCard(cardTemplate, elem, deleteCard, likeCard, openImage));
-});
+
+getCards()
+    .then(res => {
+        console.log(res);
+        res.forEach(dataObj => {
+            const dataCard = {
+                name: dataObj.name,
+                link: dataObj.link
+            }
+            cardList.append(createCard(cardTemplate, dataCard, deleteCard, likeCard, openImage));
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 //включаем валидацию
 enableValidation({
