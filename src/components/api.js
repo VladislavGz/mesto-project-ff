@@ -43,8 +43,22 @@ function getCards () {
         });
 }
 
+//функция запроса с добавлением новой карточки
+function postCard (dataObj) {
+    return fetch(`${config.baseUrl}${config.cohortId}/cards`, {
+        method: 'POST',
+        headers: config.headers,
+        body: JSON.stringify(dataObj)
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
 export {
     getUser,
     patchUser,
-    getCards
+    getCards,
+    postCard
 };
