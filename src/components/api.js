@@ -19,6 +19,19 @@ function getUser () {
         });
 }
 
+//функция изменения данных пользователя
+function patchUser (dataObj) {
+    return fetch(`${config.baseUrl}${config.cohortId}/users/me`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify(dataObj)
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
 //функция запроса карточек с сервера
 function getCards () {
     return fetch(`${config.baseUrl}${config.cohortId}/cards`, {
@@ -32,5 +45,6 @@ function getCards () {
 
 export {
     getUser,
+    patchUser,
     getCards
 };
