@@ -1,5 +1,5 @@
 //Функция создания карточки
-function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage) {
+function createCard (cardTemplate, dataCard, delCallback, delCardRequest, likeCard, openImage) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
@@ -15,12 +15,20 @@ function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage) {
     img.setAttribute('alt', `Фото: ${dataCard.name}`);
 
     if (dataCard.isOwner) {
-        deleteBtn.addEventListener('click', delCallback);
+        deleteBtn.addEventListener('click', () => {
+            delCardRequest(dataCard.cardId)
+                .then(() => {
+                    delCallback(card);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        });
     } else {
         deleteBtn.disabled = true;
         deleteBtn.classList.add('card__delete-button_disabled');
     }
-    
+
     likeBtn.addEventListener('click', likeCard);
     img.addEventListener('click', () => {
         openImage({
@@ -34,8 +42,8 @@ function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage) {
 };
 
 //Функция удаления карточки
-function deleteCard (evt) {
-    evt.target.closest('.card').remove();
+function deleteCard (card) {
+    card.remove();
 }
 
 //функция лайка карточки
