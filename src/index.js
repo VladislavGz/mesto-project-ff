@@ -3,7 +3,7 @@ import initialCards from './components/cards';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUser, getCards } from './components/api';
+import { getUser, patchUser, getCards } from './components/api';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -69,8 +69,13 @@ function setUserData (name, about) {
 function handleFormSubmitEdit (evt) {
     evt.preventDefault();
 
-    profileTitle.textContent = editNameInput.value;
-    profileDescription.textContent = editJobInput.value;
+    patchUser({
+        name: editNameInput.value,
+        about: editJobInput.value
+    })
+        .then(result => {
+            setUserData(result.name, result.about);
+        });
 
     closePopup(popupEdit);
 }
@@ -141,9 +146,7 @@ const cardsData = getCards();       //запрос данных карточек
 //обрабатываем результат только поле выполнения всех запросов
 Promise.all([userData, cardsData])
     .then(result => {
-        setUserData(result[0].name, result[0].about)
-
-        console.log(result[1])
+        setUserData(result[0].name, result[0].about);
 
         result[1].forEach(dataObj => {
             const dataCard = {
