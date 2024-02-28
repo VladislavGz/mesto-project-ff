@@ -2,7 +2,7 @@ import './pages/index.css';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUser, patchUser, getCards } from './components/api';
+import { getUser, patchUser, getCards, postCard } from './components/api';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -104,12 +104,22 @@ function openNewCard () {
 function handleFormSubmitAddCard (evt) {
     evt.preventDefault();
 
-    const newCard = {
+    postCard({
         name: addCardNameInput.value,
         link: addCardLinkInput.value
-    };
+    })
+        .then(result => {
+            const newCard = {
+                name: result.name,
+                link: result.link
+            };
 
-    cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage));
+            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage));
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
     closePopup(popupAddCard);
 }
 
