@@ -1,29 +1,29 @@
 //функция активирует показ сообщения об ошибке и меняет стиль поля ввода
-function showInputError (formElement, inputElement, errorMsg, classOptions) {
+function showInputError (formElement, inputElement, errorMsg, options) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(classOptions.inputErrorClass);
+    inputElement.classList.add(options.inputErrorClass);
     errorElement.textContent = errorMsg;
-    errorElement.classList.add(classOptions.errorClass);
+    errorElement.classList.add(options.errorClass);
 }
 
 //функция скрывает сообщение об ошибке и сбрасывает стиль поля ввода
-function hideInputError (formElement, inputElement, classOptions) {
+function hideInputError (formElement, inputElement, options) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(classOptions.inputErrorClass);
+    inputElement.classList.remove(options.inputErrorClass);
     errorElement.textContent = '';
-    errorElement.classList.remove(classOptions.errorClass);
+    errorElement.classList.remove(options.errorClass);
 }
 
 //проверка содержимого поля ввода на валидность
-function isValid (formElement, inputElement, classOptions) {
+function isValid (formElement, inputElement, options) {
     if (inputElement.validity.valid) {
-        hideInputError(formElement, inputElement, classOptions);
+        hideInputError(formElement, inputElement, options);
     } else {
         let errorMsg = inputElement.validationMessage;
         if (inputElement.validity.patternMismatch) {
             errorMsg = inputElement.getAttribute('data-pattern-err-msg');
         }
-        showInputError(formElement, inputElement, errorMsg, classOptions);
+        showInputError(formElement, inputElement, errorMsg, options);
     }
 }
 
@@ -34,51 +34,68 @@ function checkValidity (inputList) {
     });
 }
 
+//функция делает кнопку сабмита активной
+function enableSubmitButton (submitButton, options) {
+    submitButton.disabled = false;
+    submitButton.classList.remove(options.inactiveButtonClass);
+}
+
+//функция делает кнопку сабмита неактивной
+function disableSubmitButton (submitButton, options) {
+    submitButton.disabled = true;
+    submitButton.classList.add(options.inactiveButtonClass);
+}
+
 //функция проверяет все поля на валидность и меняет стили кнопки
-function toggleButtonState (submitButton, classOptions, inputList) {
+function toggleButtonState (submitButton, options, inputList) {
     if (checkValidity(inputList)) {
-        submitButton.disabled = false;
-        submitButton.classList.remove(classOptions.inactiveButtonClass);
+        enableSubmitButton (submitButton, options);
     } else {
-        submitButton.disabled = true;
-        submitButton.classList.add(classOptions.inactiveButtonClass);
+        disableSubmitButton(submitButton, options);
     }
 }
 
 //функция первоначальной проверки валидности всех форм
-function initCheckValidity (formElement, submitButton, inputList, classOptions) {
+function initCheckValidity (formElement, submitButton, inputList, options) {
     inputList.forEach(inputElement => {
-        isValid(formElement, inputElement, classOptions);
+        isValid(formElement, inputElement, options);
     });
 
-    toggleButtonState(submitButton, classOptions, inputList);
+    toggleButtonState(submitButton, options, inputList);
 }
 
-
+//функция активации валидации
 function enableValidation (options) {
-    const classOptions = {
-        inactiveButtonClass: options.inactiveButtonClass,
-        inputErrorClass: options.inputErrorClass,
-        errorClass: options.errorClass
-    };
-
     const forms = Array.from(document.querySelectorAll(options.formSelector));
 
     forms.forEach(formElement => {
         const inputList = Array.from(formElement.querySelectorAll(options.inputSelector));
         const submitButton = formElement.querySelector(options.submitButtonSelector);
 
-        initCheckValidity (formElement, submitButton, inputList, classOptions);
+        //initCheckValidity (formElement, submitButton, inputList, options);
 
         inputList.forEach(inputElement => {
             inputElement.addEventListener('input', () => {
-                isValid(formElement, inputElement, classOptions);
-                toggleButtonState(submitButton, classOptions, inputList);
+                isValid(formElement, inputElement, options);
+                toggleButtonState(submitButton, options, inputList);
             });
         });
     });
 }
 
+//очищает ошибки валидации формы и делает кнопку неактивной
+function clearValidation (formElement, options) {
+    const inputList = Array.from(formElement.querySelectorAll(options.inputSelector));
+    const submitButton = formElement.querySelector(options.submitButtonSelector); 
+
+    inputList.forEach(inputElement => {
+        hideInputError (formElement, inputElement, options)
+    })
+
+    disableSubmitButton (submitButton, options);
+}
+
 export {
-    enableValidation
+    enableValidation,
+    clearValidation
 };
