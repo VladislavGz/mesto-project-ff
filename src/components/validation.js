@@ -55,15 +55,6 @@ function toggleButtonState (submitButton, options, inputList) {
     }
 }
 
-//функция первоначальной проверки валидности всех форм
-function initCheckValidity (formElement, submitButton, inputList, options) {
-    inputList.forEach(inputElement => {
-        isValid(formElement, inputElement, options);
-    });
-
-    toggleButtonState(submitButton, options, inputList);
-}
-
 //функция активации валидации
 function enableValidation (options) {
     const forms = Array.from(document.querySelectorAll(options.formSelector));
@@ -71,8 +62,6 @@ function enableValidation (options) {
     forms.forEach(formElement => {
         const inputList = Array.from(formElement.querySelectorAll(options.inputSelector));
         const submitButton = formElement.querySelector(options.submitButtonSelector);
-
-        //initCheckValidity (formElement, submitButton, inputList, options);
 
         inputList.forEach(inputElement => {
             inputElement.addEventListener('input', () => {
