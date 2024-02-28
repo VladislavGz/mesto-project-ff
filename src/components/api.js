@@ -19,6 +19,18 @@ function getUser () {
         });
 }
 
+//функция запроса карточек с сервера
+function getCards () {
+    return fetch(`${config.baseUrl}${config.cohortId}/cards`, {
+        headers: config.headers
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
 export {
-    getUser
+    getUser,
+    getCards
 };
