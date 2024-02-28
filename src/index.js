@@ -59,6 +59,12 @@ function openEdit () {
     openPopup(popupEdit);
 }
 
+//функция изменения данных пользователя
+function setUserData (name, about) {
+    profileTitle.textContent = name;
+    profileDescription.textContent = about;
+}
+
 //обработчик отправки формы (окно редактирования)
 function handleFormSubmitEdit (evt) {
     evt.preventDefault();
@@ -135,8 +141,9 @@ const cardsData = getCards();       //запрос данных карточек
 //обрабатываем результат только поле выполнения всех запросов
 Promise.all([userData, cardsData])
     .then(result => {
-        profileTitle.textContent = result[0].name;
-        profileDescription.textContent = result[0].about;
+        setUserData(result[0].name, result[0].about)
+
+        console.log(result[1])
 
         result[1].forEach(dataObj => {
             const dataCard = {
