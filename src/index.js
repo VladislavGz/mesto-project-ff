@@ -3,6 +3,7 @@ import initialCards from './components/cards';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
+import { getUser } from './components/api';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -10,6 +11,8 @@ const cardTemplate = document.querySelector('#card-template').content.querySelec
 //DOM узлы
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
+const profileImg = document.querySelector('.profile__image');
+
 const cardList = document.querySelector('.places__list');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_new-card');
@@ -123,6 +126,17 @@ document.addEventListener('keydown', evt => {
         return;
     }
 });
+
+//--------------------------------------------------------------------
+//загрузка и вставка на страницу данных пользователя
+getUser()
+    .then(user => {
+        profileTitle.textContent = user.name;
+        profileDescription.textContent = user.about;
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 //Вывести карточки на страницу
 initialCards.forEach(elem => {
