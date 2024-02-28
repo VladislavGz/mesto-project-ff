@@ -128,27 +128,23 @@ document.addEventListener('keydown', evt => {
 });
 
 //--------------------------------------------------------------------
-//загрузка и вставка на страницу данных пользователя
-getUser()
-    .then(user => {
-        profileTitle.textContent = user.name;
-        profileDescription.textContent = user.about;
-    })
-    .catch(err => {
-        console.log(err);
-    });
+//обработка запросов
+const userData = getUser();         //запрос данных о пользователе
+const cardsData = getCards();       //запрос данных карточек
 
+//обрабатываем результат только поле выполнения всех запросов
+Promise.all([userData, cardsData])
+    .then(result => {
+        profileTitle.textContent = result[0].name;
+        profileDescription.textContent = result[0].about;
 
-getCards()
-    .then(res => {
-        console.log(res);
-        res.forEach(dataObj => {
+        result[1].forEach(dataObj => {
             const dataCard = {
                 name: dataObj.name,
                 link: dataObj.link
-            }
+            };
             cardList.append(createCard(cardTemplate, dataCard, deleteCard, likeCard, openImage));
-        })
+        });
     })
     .catch(err => {
         console.log(err);
