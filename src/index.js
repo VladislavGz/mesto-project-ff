@@ -74,6 +74,9 @@ function handleFormSubmitEdit (evt) {
     })
         .then(result => {
             setUserData(result.name, result.about);
+        })
+        .catch(err => {
+            console.log(err);
         });
 
     closePopup(popupEdit);
