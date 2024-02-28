@@ -112,7 +112,8 @@ function handleFormSubmitAddCard (evt) {
             const newCard = {
                 name: result.name,
                 link: result.link,
-                likes: result.likes.length
+                likes: result.likes.length,
+                isOwner: true
             };
 
             cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage));
@@ -160,12 +161,16 @@ const cardsData = getCards();       //запрос данных карточек
 Promise.all([userData, cardsData])
     .then(result => {
         setUserData(result[0].name, result[0].about);
-        
+        const userId = result[0]._id;
+
         result[1].forEach(dataObj => {
+            const cardId = dataObj.owner._id;
+
             const dataCard = {
                 name: dataObj.name,
                 link: dataObj.link,
-                likes: dataObj.likes.length
+                likes: dataObj.likes.length,
+                isOwner: userId === cardId      //true, если пользователь является создателем данной карточки
             };
             cardList.append(createCard(cardTemplate, dataCard, deleteCard, likeCard, openImage));
         });
