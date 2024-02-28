@@ -56,9 +56,22 @@ function postCard (dataObj) {
         });
 }
 
+//функция запроса с удалением карточки
+function delCardRequest (cardId) {
+    return fetch(`${config.baseUrl}${config.cohortId}/cards/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers,
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
 export {
     getUser,
     patchUser,
     getCards,
-    postCard
+    postCard,
+    delCardRequest
 };
