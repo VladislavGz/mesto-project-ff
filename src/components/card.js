@@ -14,7 +14,13 @@ function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage) {
     img.setAttribute('src', dataCard.link);
     img.setAttribute('alt', `Фото: ${dataCard.name}`);
 
-    deleteBtn.addEventListener('click', delCallback);
+    if (dataCard.isOwner) {
+        deleteBtn.addEventListener('click', delCallback);
+    } else {
+        deleteBtn.disabled = true;
+        deleteBtn.classList.add('card__delete-button_disabled');
+    }
+    
     likeBtn.addEventListener('click', likeCard);
     img.addEventListener('click', () => {
         openImage({
