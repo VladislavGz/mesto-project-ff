@@ -1,5 +1,5 @@
 import './pages/index.css';
-import { openPopup, closePopup } from './components/modal';
+import { openPopup, closePopup, enableWaitElem } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
 import {
@@ -86,18 +86,18 @@ function setUserData (name, about) {
 function handleFormSubmitEdit (evt) {
     evt.preventDefault();
 
+    enableWaitElem(popupEdit);
     patchUser({
         name: editNameInput.value,
         about: editJobInput.value
     })
         .then(result => {
             setUserData(result.name, result.about);
+            closePopup(popupEdit);
         })
         .catch(err => {
             console.log(err);
         });
-
-    closePopup(popupEdit);
 }
 
 //функция открытия попапа добавления карточки
@@ -122,6 +122,7 @@ function openNewCard () {
 function handleFormSubmitAddCard (evt) {
     evt.preventDefault();
 
+    enableWaitElem(popupAddCard);
     postCard({
         name: addCardNameInput.value,
         link: addCardLinkInput.value
@@ -143,12 +144,11 @@ function handleFormSubmitAddCard (evt) {
             };
 
             cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage, networkQueryFuncs));
+            closePopup(popupAddCard);
         })
         .catch(err => {
             console.log(err);
         });
-
-    closePopup(popupAddCard);
 }
 
 //функция открытия попапа обновления аватара
@@ -173,17 +173,17 @@ function openUpdateAvatar () {
 function handleFormSubmitUpdateAvatar (evt) {
     evt.preventDefault();
 
+    enableWaitElem(popupUpdateAvatar);
     patchAvatar({
         avatar: updateAvatarLinkInput.value
     })
         .then(result => {
             setAvatar(result.avatar);
+            closePopup(popupUpdateAvatar);
         })
         .catch(err => {
             console.log(err);
         });
-
-    closePopup(popupUpdateAvatar);
 }
 
 //--------------------------------------------------------------------
