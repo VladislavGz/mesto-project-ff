@@ -2,7 +2,15 @@ import './pages/index.css';
 import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUser, patchUser, getCards, postCard, delCardRequest } from './components/api';
+import {
+    getUser,
+    patchUser,
+    getCards,
+    postCard,
+    delCardRequest,
+    putCardLike,
+    delCardLike
+} from './components/api';
 
 //Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
@@ -117,7 +125,13 @@ function handleFormSubmitAddCard (evt) {
                 isOwner: true
             };
 
-            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, delCardRequest, likeCard, openImage));
+            const networkQueryFuncs = {
+                delCard: delCardRequest,
+                putLike: putCardLike,
+                delLike: delCardLike
+            };
+
+            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage, networkQueryFuncs));
         })
         .catch(err => {
             console.log(err);
@@ -164,17 +178,34 @@ Promise.all([userData, cardsData])
         setUserData(result[0].name, result[0].about);
         const userId = result[0]._id;
 
-        result[1].forEach(dataObj => {
-            const cardId = dataObj.owner._id;
+        result[1].forEach(card => {
+            const cardId = card.owner._id;
+
+            //проверка наличия лайка карточки от пользователя
+            let isLike = false;
+            for (let i = 0; i < card.likes.length; i++) {
+                if (card.likes[i]._id === userId) {
+                    isLike = true;
+                    break;
+                }
+            }
 
             const dataCard = {
-                name: dataObj.name,
-                link: dataObj.link,
-                likes: dataObj.likes.length,
-                cardId: dataObj._id,
-                isOwner: userId === cardId      //true, если пользователь является создателем данной карточки
+                name: card.name,
+                link: card.link,
+                likes: card.likes.length,
+                cardId: card._id,
+                isOwner: userId === cardId,     //true, если пользователь является создателем данной карточки
+                isLike: isLike                  //true, если данная карточка лайкнута пользователем
             };
-            cardList.append(createCard(cardTemplate, dataCard, deleteCard, delCardRequest, likeCard, openImage));
+
+            const networkQueryFuncs = {
+                delCard: delCardRequest,
+                putLike: putCardLike,
+                delLike: delCardLike
+            };
+
+            cardList.append(createCard(cardTemplate, dataCard, deleteCard, likeCard, openImage, networkQueryFuncs));
         });
     })
     .catch(err => {
