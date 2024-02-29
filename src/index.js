@@ -26,6 +26,7 @@ const popupAddCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
 const editButton = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.profile__add-button');
+const popupUpdateAvatar = document.querySelector('.popup_type_edit-avatar');
 
 const editForm = popupEdit.querySelector('.popup__form');
 const editNameInput = editForm.elements['name'];
@@ -141,11 +142,28 @@ function handleFormSubmitAddCard (evt) {
     closePopup(popupAddCard);
 }
 
+//функция открытия попапа обновления аватара
+function openUpdateAvatar () {
+    clearValidation(
+        popupUpdateAvatar.querySelector('.popup__form'),
+        {
+            inputSelector: '.popup__input',
+            submitButtonSelector: '.popup__button',
+            inactiveButtonClass: 'popup__button_disabled',
+            inputErrorClass: 'popup__input_error',
+            errorClass: 'popup__input-error_active'
+        }
+    );
+
+    openPopup(popupUpdateAvatar);
+}
+
 //--------------------------------------------------------------------
 //анимирование попапов
 popupEdit.classList.add('popup_is-animated');
 popupAddCard.classList.add('popup_is-animated');
 popupImage.classList.add('popup_is-animated');
+popupUpdateAvatar.classList.add('popup_is-animated');
 
 //открытие окна редактирования профиля
 editButton.addEventListener('click', openEdit);
@@ -158,6 +176,9 @@ addCardButton.addEventListener('click', openNewCard);
 
 //отправка формы (новая карточка)
 addCardForm.addEventListener('submit', handleFormSubmitAddCard);
+
+//открытие окна обновления аватара
+profileImg.addEventListener('click', openUpdateAvatar);
 
 //обработка клавиатуры
 document.addEventListener('keydown', evt => {
