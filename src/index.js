@@ -226,6 +226,7 @@ const cardsData = getCards();       //запрос данных карточек
 //обрабатываем результат только поле выполнения всех запросов
 Promise.all([userData, cardsData])
     .then(result => {
+        setAvatar(result[0].avatar);
         setUserData(result[0].name, result[0].about);
         const userId = result[0]._id;
 
