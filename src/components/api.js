@@ -68,10 +68,36 @@ function delCardRequest (cardId) {
         });
 }
 
+//функция запроса с лайком карточки
+function putCardLike (cardId) {
+    return fetch(`${config.baseUrl}${config.cohortId}/cards/likes/${cardId}`, {
+        method: 'PUT',
+        headers: config.headers,
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
+//функция запроса с удалением лайка карточки
+function delCardLike (cardId) {
+    return fetch(`${config.baseUrl}${config.cohortId}/cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers,
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
 export {
     getUser,
     patchUser,
     getCards,
     postCard,
-    delCardRequest
+    delCardRequest,
+    putCardLike,
+    delCardLike
 };
