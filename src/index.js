@@ -182,6 +182,8 @@ function handleFormSubmitUpdateAvatar (evt) {
         .catch(err => {
             console.log(err);
         });
+
+    closePopup(popupUpdateAvatar);
 }
 
 //--------------------------------------------------------------------
