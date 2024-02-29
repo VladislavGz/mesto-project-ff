@@ -1,5 +1,5 @@
 //Функция создания карточки
-function createCard (cardTemplate, dataCard, delCallback, delCardRequest, likeCard, openImage) {
+function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage, networkQueryFuncs) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
@@ -14,9 +14,13 @@ function createCard (cardTemplate, dataCard, delCallback, delCardRequest, likeCa
     img.setAttribute('src', dataCard.link);
     img.setAttribute('alt', `Фото: ${dataCard.name}`);
 
+    if (dataCard.isLike) {
+        likeBtn.classList.add('card__like-button_is-active');
+    }
+
     if (dataCard.isOwner) {
         deleteBtn.addEventListener('click', () => {
-            delCardRequest(dataCard.cardId)
+            networkQueryFuncs.delCard(dataCard.cardId)
                 .then(() => {
                     delCallback(card);
                 })
@@ -29,7 +33,28 @@ function createCard (cardTemplate, dataCard, delCallback, delCardRequest, likeCa
         deleteBtn.classList.add('card__delete-button_disabled');
     }
 
-    likeBtn.addEventListener('click', likeCard);
+    likeBtn.addEventListener('click', () => {
+        if (likeBtn.classList.contains('card__like-button_is-active')) {
+            networkQueryFuncs.delLike(dataCard.cardId)
+                .then(res => {
+                    likeCounter.textContent = res.likes.length;
+                    likeCard(likeBtn);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
+            networkQueryFuncs.putLike(dataCard.cardId)
+                .then(res => {
+                    likeCounter.textContent = res.likes.length;
+                    likeCard(likeBtn);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    });
+
     img.addEventListener('click', () => {
         openImage({
             src: dataCard.link,
@@ -47,8 +72,8 @@ function deleteCard (card) {
 }
 
 //функция лайка карточки
-function likeCard (evt) {
-    evt.target.classList.toggle('card__like-button_is-active');
+function likeCard (likeBtn) {
+    likeBtn.classList.toggle('card__like-button_is-active');
 }
 
 export {
