@@ -9,7 +9,8 @@ import {
     postCard,
     delCardRequest,
     putCardLike,
-    delCardLike
+    delCardLike,
+    patchAvatar
 } from './components/api';
 
 //Темплейт карточки
@@ -35,6 +36,14 @@ const editJobInput = editForm.elements['description'];
 const addCardForm = popupAddCard.querySelector('.popup__form');
 const addCardNameInput = addCardForm.elements['place-name'];
 const addCardLinkInput = addCardForm.elements['link'];
+
+const updateAvatarForm = popupUpdateAvatar.querySelector('.popup__form');
+const updateAvatarLinkInput = updateAvatarForm.elements['link'];
+
+//функция установки аватара на страницу
+function setAvatar (url) {
+    profileImg.setAttribute('style', `background-image: url("${url}")`);
+}
 
 //функция открытия изображения
 function openImage (imgData) {
@@ -144,6 +153,8 @@ function handleFormSubmitAddCard (evt) {
 
 //функция открытия попапа обновления аватара
 function openUpdateAvatar () {
+    updateAvatarForm.reset();
+
     clearValidation(
         popupUpdateAvatar.querySelector('.popup__form'),
         {
@@ -156,6 +167,21 @@ function openUpdateAvatar () {
     );
 
     openPopup(popupUpdateAvatar);
+}
+
+//обработчик отправки формы (обновление аватара)
+function handleFormSubmitUpdateAvatar (evt) {
+    evt.preventDefault();
+
+    patchAvatar({
+        avatar: updateAvatarLinkInput.value
+    })
+        .then(result => {
+            setAvatar(result.avatar);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 //--------------------------------------------------------------------
@@ -179,6 +205,9 @@ addCardForm.addEventListener('submit', handleFormSubmitAddCard);
 
 //открытие окна обновления аватара
 profileImg.addEventListener('click', openUpdateAvatar);
+
+//отправка формы (обновление аватара)
+updateAvatarForm.addEventListener('submit', handleFormSubmitUpdateAvatar);
 
 //обработка клавиатуры
 document.addEventListener('keydown', evt => {
