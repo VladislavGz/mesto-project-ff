@@ -1,0 +1,7 @@
+.popup__button_loading-element {
+    visibility: hidden;
+}
+
+.popup__button_loading-element_active {
+    visibility: visible;
+}
