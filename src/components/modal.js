@@ -10,6 +10,7 @@ function closePopup (popup) {
     popup.classList.remove('popup_is-opened');
     popup.removeEventListener('click', popupClickHandler);
     document.removeEventListener('keydown', popupEscapeHandler);
+    disableWaitElem(popup);
 }
 
 //функция обработки события клика по попапу
@@ -27,8 +28,19 @@ function popupEscapeHandler (evt) {
     }
 }
 
+//функция активации элемента ожидания загрузки
+function enableWaitElem (popup) {
+    popup.querySelector('.popup__button_loading-element').classList.add('popup__button_loading-element_active');
+}
+
+//функция отключения элемента ожидания загрузки
+function disableWaitElem (popup) {
+    popup.querySelector('.popup__button_loading-element').classList.remove('popup__button_loading-element_active');
+}
+
 export {
     openPopup,
-    closePopup
+    closePopup,
+    enableWaitElem
 };
 
