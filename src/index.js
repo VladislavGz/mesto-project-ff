@@ -122,7 +122,8 @@ function handleFormSubmitAddCard (evt) {
                 link: result.link,
                 likes: result.likes.length,
                 cardId: result._id,
-                isOwner: true
+                isOwner: true,
+                isLike: false
             };
 
             const networkQueryFuncs = {
