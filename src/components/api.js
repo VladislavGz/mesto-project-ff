@@ -92,6 +92,19 @@ function delCardLike (cardId) {
         });
 }
 
+//функция запроса с обновление аватара
+function patchAvatar (dataObj) {
+    return fetch(`${config.baseUrl}${config.cohortId}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify(dataObj)
+    })
+        .then(res => {
+            if (res.ok) return res.json();
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
 export {
     getUser,
     patchUser,
@@ -99,5 +112,6 @@ export {
     postCard,
     delCardRequest,
     putCardLike,
-    delCardLike
+    delCardLike,
+    patchAvatar
 };
