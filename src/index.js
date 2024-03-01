@@ -22,23 +22,23 @@ const profileDescription = document.querySelector('.profile__description');
 const profileImg = document.querySelector('.profile__image');
 
 const cardList = document.querySelector('.places__list');
-const popupEdit = document.querySelector('.popup_type_edit');
+const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
-const editButton = document.querySelector('.profile__edit-button');
-const addCardButton = document.querySelector('.profile__add-button');
+const buttonOpenPopupEdit = document.querySelector('.profile__edit-button');
+const buttonOpenPopupCard = document.querySelector('.profile__add-button');
 const popupUpdateAvatar = document.querySelector('.popup_type_edit-avatar');
 
-const editForm = popupEdit.querySelector('.popup__form');
-const editNameInput = editForm.elements['name'];
-const editJobInput = editForm.elements['description'];
+const formEditProfile = popupEditProfile.querySelector('.popup__form');
+const inputEditName = formEditProfile.elements['name'];
+const inputEditJob = formEditProfile.elements['description'];
 
-const addCardForm = popupAddCard.querySelector('.popup__form');
-const addCardNameInput = addCardForm.elements['place-name'];
-const addCardLinkInput = addCardForm.elements['link'];
+const formAddCard = popupAddCard.querySelector('.popup__form');
+const inputAddCardName = formAddCard.elements['place-name'];
+const inputAddCardLink = formAddCard.elements['link'];
 
-const updateAvatarForm = popupUpdateAvatar.querySelector('.popup__form');
-const updateAvatarLinkInput = updateAvatarForm.elements['link'];
+const formUpdateAvatar = popupUpdateAvatar.querySelector('.popup__form');
+const inputUpdateAvatarLink = formUpdateAvatar.elements['link'];
 
 //функция установки аватара на страницу
 function setAvatar (url) {
@@ -69,11 +69,11 @@ function openImage (imgData) {
 
 //функция открытия окна редактирования
 function openEdit () {
-    editNameInput.value = profileTitle.textContent;
-    editJobInput.value = profileDescription.textContent;
+    inputEditName.value = profileTitle.textContent;
+    inputEditJob.value = profileDescription.textContent;
 
     clearValidation(
-        popupEdit.querySelector('.popup__form'),
+        popupEditProfile.querySelector('.popup__form'),
         {
             inputSelector: '.popup__input',
             submitButtonSelector: '.popup__button',
@@ -83,7 +83,7 @@ function openEdit () {
         }
     );
 
-    openPopup(popupEdit);
+    openPopup(popupEditProfile);
 }
 
 //функция изменения данных пользователя
@@ -96,26 +96,26 @@ function setUserData (name, about) {
 function handleFormSubmitEdit (evt) {
     evt.preventDefault();
 
-    enableWaitElem(popupEdit);
+    enableWaitElem(popupEditProfile);
     patchUser({
-        name: editNameInput.value,
-        about: editJobInput.value
+        name: inputEditName.value,
+        about: inputEditJob.value
     })
         .then(result => {
             setUserData(result.name, result.about);
-            closePopup(popupEdit);
+            closePopup(popupEditProfile);
         })
         .catch(err => {
             console.log(err);
         })
         .finally(() => {
-            disableWaitElem(popupEdit);
+            disableWaitElem(popupEditProfile);
         });
 }
 
 //функция открытия попапа добавления карточки
 function openNewCard () {
-    addCardForm.reset();
+    formAddCard.reset();
 
     clearValidation(
         popupAddCard.querySelector('.popup__form'),
@@ -137,8 +137,8 @@ function handleFormSubmitAddCard (evt) {
 
     enableWaitElem(popupAddCard);
     postCard({
-        name: addCardNameInput.value,
-        link: addCardLinkInput.value
+        name: inputAddCardName.value,
+        link: inputAddCardLink.value
     })
         .then(result => {
             const newCard = {
@@ -169,7 +169,7 @@ function handleFormSubmitAddCard (evt) {
 
 //функция открытия попапа обновления аватара
 function openUpdateAvatar () {
-    updateAvatarForm.reset();
+    formUpdateAvatar.reset();
 
     clearValidation(
         popupUpdateAvatar.querySelector('.popup__form'),
@@ -191,7 +191,7 @@ function handleFormSubmitUpdateAvatar (evt) {
 
     enableWaitElem(popupUpdateAvatar);
     patchAvatar({
-        avatar: updateAvatarLinkInput.value
+        avatar: inputUpdateAvatarLink.value
     })
         .then(result => {
             setAvatar(result.avatar);
@@ -207,28 +207,28 @@ function handleFormSubmitUpdateAvatar (evt) {
 
 //--------------------------------------------------------------------
 //анимирование попапов
-popupEdit.classList.add('popup_is-animated');
+popupEditProfile.classList.add('popup_is-animated');
 popupAddCard.classList.add('popup_is-animated');
 popupImage.classList.add('popup_is-animated');
 popupUpdateAvatar.classList.add('popup_is-animated');
 
 //открытие окна редактирования профиля
-editButton.addEventListener('click', openEdit);
+buttonOpenPopupEdit.addEventListener('click', openEdit);
 
 //отправка формы (окно редактирования)
-editForm.addEventListener('submit', handleFormSubmitEdit);
+formEditProfile.addEventListener('submit', handleFormSubmitEdit);
 
 //открытие окна добавления новой карточки
-addCardButton.addEventListener('click', openNewCard);
+buttonOpenPopupCard.addEventListener('click', openNewCard);
 
 //отправка формы (новая карточка)
-addCardForm.addEventListener('submit', handleFormSubmitAddCard);
+formAddCard.addEventListener('submit', handleFormSubmitAddCard);
 
 //открытие окна обновления аватара
 profileImg.addEventListener('click', openUpdateAvatar);
 
 //отправка формы (обновление аватара)
-updateAvatarForm.addEventListener('submit', handleFormSubmitUpdateAvatar);
+formUpdateAvatar.addEventListener('submit', handleFormSubmitUpdateAvatar);
 
 //обработка клавиатуры
 document.addEventListener('keydown', evt => {
