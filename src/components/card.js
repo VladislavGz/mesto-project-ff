@@ -1,5 +1,5 @@
 //Функция создания карточки
-function createCard (cardTemplate, dataCard, delCallback, handleLikeCard, openImage, networkQueryFuncs) {
+function createCard (cardTemplate, dataCard, handleDeleteCard, handleLikeCard, openImage) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
@@ -20,13 +20,7 @@ function createCard (cardTemplate, dataCard, delCallback, handleLikeCard, openIm
 
     if (dataCard.isOwner) {
         deleteBtn.addEventListener('click', () => {
-            networkQueryFuncs.delCard(dataCard.cardId)
-                .then(() => {
-                    delCallback(card);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            handleDeleteCard(card, dataCard.cardId);
         });
     } else {
         deleteBtn.disabled = true;

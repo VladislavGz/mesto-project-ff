@@ -149,13 +149,7 @@ function handleFormSubmitAddCard (evt) {
                 isLike: false
             };
 
-            const networkQueryFuncs = {
-                delCard: delCardRequest,
-                putLike: putCardLike,
-                delLike: delCardLike
-            };
-
-            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, handleLikeCard, openImage, networkQueryFuncs));
+            cardList.prepend(createCard(cardTemplate, newCard, handleDeleteCard, handleLikeCard, openImage));
             closePopup(popupAddCard);
         })
         .catch(err => {
@@ -225,6 +219,17 @@ function handleLikeCard (status, cardId, elems) {
     }
 }
 
+//обработчик удаления карточки
+function handleDeleteCard (card, cardId) {
+    delCardRequest(cardId)
+        .then(() => {
+            deleteCard(card);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
 //--------------------------------------------------------------------
 //анимирование попапов
 popupEditProfile.classList.add('popup_is-animated');
@@ -283,13 +288,7 @@ Promise.all([userData, cardsData])
                 isLike: checkLikeLoad(userId, card)     //true, если данная карточка лайкнута пользователем
             };
 
-            const networkQueryFuncs = {
-                delCard: delCardRequest,
-                putLike: putCardLike,
-                delLike: delCardLike
-            };
-
-            cardList.append(createCard(cardTemplate, dataCard, deleteCard, handleLikeCard, openImage, networkQueryFuncs));
+            cardList.append(createCard(cardTemplate, dataCard, handleDeleteCard, handleLikeCard, openImage));
         });
     })
     .catch(err => {
