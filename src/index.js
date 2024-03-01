@@ -1,6 +1,6 @@
 import './pages/index.css';
 import { openPopup, closePopup } from './components/modal';
-import { createCard, deleteCard, likeCard, checkLike } from './components/card';
+import { createCard, deleteCard, changeLike, checkLikeLoad } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
 import {
     getUser,
@@ -204,6 +204,27 @@ function handleFormSubmitUpdateAvatar (evt) {
         });
 }
 
+//обработчик лайка карточки
+function handleLikeCard (status, cardId, elems) {
+    if (!status) {
+        putCardLike(cardId)
+            .then(res => {
+                changeLike(elems, true, res.likes.length);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        delCardLike(cardId)
+            .then(res => {
+                changeLike(elems, false, res.likes.length);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+}
+
 //--------------------------------------------------------------------
 //анимирование попапов
 popupEditProfile.classList.add('popup_is-animated');
@@ -259,7 +280,7 @@ Promise.all([userData, cardsData])
                 likes: card.likes.length,
                 cardId: card._id,
                 isOwner: userId === cardId,         //true, если пользователь является создателем данной карточки
-                isLike: checkLike(userId, card)     //true, если данная карточка лайкнута пользователем
+                isLike: checkLikeLoad(userId, card)     //true, если данная карточка лайкнута пользователем
             };
 
             const networkQueryFuncs = {
@@ -268,7 +289,7 @@ Promise.all([userData, cardsData])
                 delLike: delCardLike
             };
 
-            cardList.append(createCard(cardTemplate, dataCard, deleteCard, likeCard, openImage, networkQueryFuncs));
+            cardList.append(createCard(cardTemplate, dataCard, deleteCard, handleLikeCard, openImage, networkQueryFuncs));
         });
     })
     .catch(err => {

@@ -1,5 +1,5 @@
 //Функция создания карточки
-function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage, networkQueryFuncs) {
+function createCard (cardTemplate, dataCard, delCallback, handleLikeCard, openImage, networkQueryFuncs) {
     const card = cardTemplate.cloneNode(true);
 
     const title = card.querySelector('.card__title');
@@ -34,25 +34,13 @@ function createCard (cardTemplate, dataCard, delCallback, likeCard, openImage, n
     }
 
     likeBtn.addEventListener('click', () => {
-        if (likeBtn.classList.contains('card__like-button_is-active')) {
-            networkQueryFuncs.delLike(dataCard.cardId)
-                .then(res => {
-                    likeCounter.textContent = res.likes.length;
-                    likeCard(likeBtn);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        } else {
-            networkQueryFuncs.putLike(dataCard.cardId)
-                .then(res => {
-                    likeCounter.textContent = res.likes.length;
-                    likeCard(likeBtn);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
+        handleLikeCard(
+            checkLike(likeBtn),
+            dataCard.cardId,
+            {
+                likeBtn,
+                likeCounter
+            });
     });
 
     img.addEventListener('click', () => {
@@ -72,12 +60,15 @@ function deleteCard (card) {
 }
 
 //функция лайка карточки
-function likeCard (likeBtn) {
-    likeBtn.classList.toggle('card__like-button_is-active');
+function changeLike (elems, status, counter) {
+    if (status) elems.likeBtn.classList.add('card__like-button_is-active');
+    else elems.likeBtn.classList.remove('card__like-button_is-active');
+
+    elems.likeCounter.textContent = counter;
 }
 
-//функция проверки наличия лайка на существующей карточке от пользователя
-function checkLike (userId, card) {
+//функция проверки наличия лайка на существующей карточке от пользователя при загрузке
+function checkLikeLoad (userId, card) {
     for (let i = 0; i < card.likes.length; i++) {
         if (card.likes[i]._id === userId) {
             return true;
@@ -86,9 +77,14 @@ function checkLike (userId, card) {
     return false;
 }
 
+//функция проверки наличия лайка после загрузки и присвоения соответствующих классов
+function checkLike (likeButton) {
+    return likeButton.classList.contains('card__like-button_is-active');
+}
+
 export {
     createCard,
     deleteCard,
-    likeCard,
-    checkLike
+    changeLike,
+    checkLikeLoad
 };
