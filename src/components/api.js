@@ -8,15 +8,17 @@ const config = {
     }
 };
 
+//функция проверки ответа от сервера
+function checkRequest (res) {
+    return res.ok ? res.json() : Promise.reject();
+}
+
 //функция запроса данных о пользователе
 function getUser () {
     return fetch(`${config.baseUrl}${config.cohortId}/users/me`, {
         headers: config.headers
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция изменения данных пользователя
@@ -26,10 +28,7 @@ function patchUser (dataObj) {
         headers: config.headers,
         body: JSON.stringify(dataObj)
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция запроса карточек с сервера
@@ -37,10 +36,7 @@ function getCards () {
     return fetch(`${config.baseUrl}${config.cohortId}/cards`, {
         headers: config.headers
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция запроса с добавлением новой карточки
@@ -50,10 +46,7 @@ function postCard (dataObj) {
         headers: config.headers,
         body: JSON.stringify(dataObj)
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция запроса с удалением карточки
@@ -62,10 +55,7 @@ function delCardRequest (cardId) {
         method: 'DELETE',
         headers: config.headers,
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция запроса с лайком карточки
@@ -74,10 +64,7 @@ function putCardLike (cardId) {
         method: 'PUT',
         headers: config.headers,
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция запроса с удалением лайка карточки
@@ -86,10 +73,7 @@ function delCardLike (cardId) {
         method: 'DELETE',
         headers: config.headers,
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 //функция запроса с обновление аватара
@@ -99,10 +83,7 @@ function patchAvatar (dataObj) {
         headers: config.headers,
         body: JSON.stringify(dataObj)
     })
-        .then(res => {
-            if (res.ok) return res.json();
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(res => checkRequest(res));
 }
 
 export {
