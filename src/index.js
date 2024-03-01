@@ -1,5 +1,5 @@
 import './pages/index.css';
-import { openPopup, closePopup, enableWaitElem } from './components/modal';
+import { openPopup, closePopup } from './components/modal';
 import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
 import {
@@ -43,6 +43,16 @@ const updateAvatarLinkInput = updateAvatarForm.elements['link'];
 //функция установки аватара на страницу
 function setAvatar (url) {
     profileImg.setAttribute('style', `background-image: url("${url}")`);
+}
+
+//функция активации элемента ожидания загрузки
+function enableWaitElem (popup) {
+    popup.querySelector('.popup__button_loading-element').classList.add('popup__button_loading-element_active');
+}
+
+//функция отключения элемента ожидания загрузки
+function disableWaitElem (popup) {
+    popup.querySelector('.popup__button_loading-element').classList.remove('popup__button_loading-element_active');
 }
 
 //функция открытия изображения
