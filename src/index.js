@@ -107,6 +107,9 @@ function handleFormSubmitEdit (evt) {
         })
         .catch(err => {
             console.log(err);
+        })
+        .finally(() => {
+            disableWaitElem(popupEdit);
         });
 }
 
@@ -158,6 +161,9 @@ function handleFormSubmitAddCard (evt) {
         })
         .catch(err => {
             console.log(err);
+        })
+        .finally(() => {
+            disableWaitElem(popupAddCard);
         });
 }
 
@@ -193,6 +199,9 @@ function handleFormSubmitUpdateAvatar (evt) {
         })
         .catch(err => {
             console.log(err);
+        })
+        .finally(() => {
+            disableWaitElem(popupUpdateAvatar);
         });
 }
 
