@@ -155,7 +155,7 @@ function handleFormSubmitAddCard (evt) {
                 delLike: delCardLike
             };
 
-            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, likeCard, openImage, networkQueryFuncs));
+            cardList.prepend(createCard(cardTemplate, newCard, deleteCard, handleLikeCard, openImage, networkQueryFuncs));
             closePopup(popupAddCard);
         })
         .catch(err => {
