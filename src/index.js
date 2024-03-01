@@ -1,6 +1,6 @@
 import './pages/index.css';
 import { openPopup, closePopup } from './components/modal';
-import { createCard, deleteCard, likeCard } from './components/card';
+import { createCard, deleteCard, likeCard, checkLike } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
 import {
     getUser,
@@ -253,22 +253,13 @@ Promise.all([userData, cardsData])
         result[1].forEach(card => {
             const cardId = card.owner._id;
 
-            //проверка наличия лайка карточки от пользователя
-            let isLike = false;
-            for (let i = 0; i < card.likes.length; i++) {
-                if (card.likes[i]._id === userId) {
-                    isLike = true;
-                    break;
-                }
-            }
-
             const dataCard = {
                 name: card.name,
                 link: card.link,
                 likes: card.likes.length,
                 cardId: card._id,
-                isOwner: userId === cardId,     //true, если пользователь является создателем данной карточки
-                isLike: isLike                  //true, если данная карточка лайкнута пользователем
+                isOwner: userId === cardId,         //true, если пользователь является создателем данной карточки
+                isLike: checkLike(userId, card)     //true, если данная карточка лайкнута пользователем
             };
 
             const networkQueryFuncs = {

@@ -76,8 +76,19 @@ function likeCard (likeBtn) {
     likeBtn.classList.toggle('card__like-button_is-active');
 }
 
+//функция проверки наличия лайка на существующей карточке от пользователя
+function checkLike (userId, card) {
+    for (let i = 0; i < card.likes.length; i++) {
+        if (card.likes[i]._id === userId) {
+            return true;
+        }
+    }
+    return false;
+}
+
 export {
     createCard,
     deleteCard,
-    likeCard
+    likeCard,
+    checkLike
 };
