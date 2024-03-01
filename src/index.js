@@ -25,6 +25,8 @@ const cardList = document.querySelector('.places__list');
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
+const popupImagePicture = popupImage.querySelector('.popup__image');
+const popupImageDescription = popupImage.querySelector('.popup__caption');
 const buttonOpenPopupEdit = document.querySelector('.profile__edit-button');
 const buttonOpenPopupCard = document.querySelector('.profile__add-button');
 const popupUpdateAvatar = document.querySelector('.popup_type_edit-avatar');
@@ -57,12 +59,9 @@ function disableWaitElem (popup) {
 
 //функция открытия изображения
 function openImage (imgData) {
-    const img = popupImage.querySelector('.popup__image');
-    const txt = popupImage.querySelector('.popup__caption');
-
-    img.setAttribute('src', imgData.src);
-    img.setAttribute('alt', imgData.alt);
-    txt.textContent = imgData.txt;
+    popupImagePicture.setAttribute('src', imgData.src);
+    popupImagePicture.setAttribute('alt', imgData.alt);
+    popupImageDescription.textContent = imgData.txt;
 
     openPopup(popupImage);
 }
